@@ -36,6 +36,23 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+
+    buildFeatures {
+        resValues = true
+    }
+
+    flavorDimensions += "default"
+    productFlavors {
+        create("dev") {
+            dimension = "default"
+            applicationIdSuffix = ".dev"
+            resValue("string", "app_name", "NavTest Dev")
+        }
+        create("prod") {
+            dimension = "default"
+            resValue("string", "app_name", "NavTest")
+        }
+    }
 }
 
 kotlin {
