@@ -67,4 +67,7 @@ flutter {
 
 dependencies {
     implementation("com.google.android.gms:play-services-location:21.4.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.11.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.11.0")
 }

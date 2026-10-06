@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nav_test/core/utils/app_constants.dart';
+import 'package:nav_test/features/map/screens/map_screen.dart';
+import 'package:toastification/toastification.dart';
 
 import 'config/flavor_config.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(const ProviderScope(child: ToastificationWrapper(child: MyApp())));
 }
 
 class MyApp extends ConsumerWidget {
@@ -29,7 +31,7 @@ class MyApp extends ConsumerWidget {
           child: child!,
         );
       },
-      home: const Scaffold(body: Center(child: Text('Map screen'))),
+      home: MapScreen(),
     );
   }
 }
