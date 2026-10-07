@@ -11,12 +11,6 @@ final mapControllerProvider = Provider<MapController>((ref) {
   return controller;
 });
 
-/*extension MapControllerX on MapController {
-  void moveSmooth(LatLng center, {double zoom = AppConstants.defaultZoom}) {
-    move(center, zoom);
-  }
-}*/
-
 extension MapControllerX on MapController {
   void moveSmooth(
     TickerProvider vsync, {
@@ -65,5 +59,9 @@ extension MapControllerX on MapController {
     });
 
     animationController.forward();
+  }
+
+  void moveSmooth2(LatLng center, {double zoom = AppConstants.defaultZoom}) {
+    move(center, zoom);
   }
 }

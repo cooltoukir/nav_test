@@ -3,10 +3,8 @@ class AppConstants {
   static const String prodAppName = 'NavTest';
   static const String dev = 'DEV';
   static const String openStreetMapContributors = 'OpenStreetMap contributors';
-  static const String devUserAgentPackageName =
-      'com.toukirahmed.nav_test.dev';
-  static const String prodUserAgentPackageName =
-      'com.toukirahmed.nav_test';
+  static const String devUserAgentPackageName = 'com.toukirahmed.nav_test.dev';
+  static const String prodUserAgentPackageName = 'com.toukirahmed.nav_test';
 
   static const String devOsrmBaseUrl =
       'https://router.project-osrm.org/route/v1/driving';
@@ -14,6 +12,10 @@ class AppConstants {
       'https://router.project-osrm.org/route/v1/driving';
   static const String osmTileUrl =
       'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+  static const String nominatimBaseUrl = 'https://nominatim.openstreetmap.org';
 
   static const double defaultZoom = 15.0;
+  static const int markerAnimSteps = 200;
+
+  static const Duration markerAnimDuration = Duration(milliseconds: 50);
 }
