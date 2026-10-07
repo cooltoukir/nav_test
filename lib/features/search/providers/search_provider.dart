@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:nav_test/features/search/models/place_model.dart';
 
 import '../../../core/utils/app_constants.dart';
@@ -69,3 +70,41 @@ final selectedPlaceProvider =
     NotifierProvider<SelectedPlaceNotifier, PlaceModel?>(
       SelectedPlaceNotifier.new,
     );
+
+Future<PlaceModel?> reverseGeocode(WidgetRef ref, LatLng point) async {
+  final dio = ref.read(dioProvider);
+
+  try {
+    final response = await dio.get(
+      '/reverse',
+      queryParameters: {
+        'lat': point.latitude,
+        'lon': point.longitude,
+        'format': 'json',
+        'addressdetails': 1,
+      },
+    );
+
+    final data = response.data as Map<String, dynamic>;
+
+    final displayName = data['display_name'] as String? ?? 'Selected location';
+
+    return PlaceModel(
+      displayName: displayName,
+      shortName: _extractShortName(displayName),
+      latLng: point,
+      type: data['type'] as String?,
+      icon: data['icon'] as String?,
+    );
+  } on DioException {
+    return null;
+  }
+}
+
+String _extractShortName(String displayName) {
+  final parts = displayName.split(',');
+
+  return parts.length >= 2
+      ? '${parts[0].trim()}, ${parts[1].trim()}'
+      : parts[0].trim();
+}

@@ -7,6 +7,7 @@ import 'package:nav_test/features/map/providers/location_provider.dart';
 import 'package:nav_test/features/map/providers/map_controller_provider.dart';
 import 'package:nav_test/features/search/providers/search_provider.dart';
 import 'package:nav_test/features/search/widgets/search_bar_widget.dart';
+import 'package:toastification/toastification.dart';
 
 import '../../../config/flavor_config.dart';
 import '../../navigation/models/route_state.dart';
@@ -51,6 +52,30 @@ class _MapScreenState extends ConsumerState<MapScreen>
     }
   }
 
+  Future<void> _onMapLongPress(LatLng point) async {
+    final place = await reverseGeocode(ref, point);
+
+    if (!mounted) return;
+
+    if (place == null) {
+      toastification.show(
+        context: context,
+        title: const Text('Location not found'),
+        description: const Text(
+          'Could not find this location.',
+        ),
+        type: ToastificationType.error,
+        autoCloseDuration: const Duration(seconds: 3),
+      );
+
+      return;
+    }
+
+    ref.read(selectedPlaceProvider.notifier).select(place);
+
+    await ref.read(routeProvider.notifier).fetchRoute();
+  }
+
   @override
   Widget build(BuildContext context) {
     final location = ref.watch(locationProvider);
@@ -83,6 +108,9 @@ class _MapScreenState extends ConsumerState<MapScreen>
               initialCenter: _defaultCenter,
               initialZoom: AppConstants.defaultZoom,
               onMapReady: _onMapReady,
+              onLongPress: (tapPosition, point) {
+                _onMapLongPress(point);
+              },
               interactionOptions: const InteractionOptions(
                 flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
               ),
